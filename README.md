@@ -8,13 +8,16 @@
    repo directory.
 2. Make a new ActionScript in Flash Builder.
 3. Point the project location at the game folder.
+   ![Folder Settings](http://i.imgur.com/y6PF6.jpg)
 4. Click "Next".
 5. On the "Build Paths" page, under the "Native Extensions", add the
    "libs/SpeechExtension.ane" ANE.
+   ![Folder Settings](http://i.imgur.com/9W5Rv.jpg)
 6. Click "Finish".
 7. Right click the project in Package Explorer, go to "Properties", then
    "Actionscript Build Packaging".
 8. Under the "Native Extensions" tab, check the Package check box.
+   ![Packaging Settings](http://i.imgur.com/kzZXH.jpg)
 
 Now your game project should have the access to the Speech Command ANE!
 Yay!
