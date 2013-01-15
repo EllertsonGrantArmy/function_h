@@ -1,0 +1,3 @@
+[submodule "VoiceRecANE"]
+	path = VoiceRecANE
+	url = https://github.com/EllertsonGrantArmy/VoiceRecNativeExtension.git
