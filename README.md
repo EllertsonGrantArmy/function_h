@@ -5,14 +5,15 @@
 
 1. Run the speech_setup script to clone the native extension and move
    the ane to your project. To do this, run ```sh setup_ane.sh``` in the
-   repo directory.
+   repo directory.  
+   ![Setup Script](http://i.imgur.com/2bRus.jpg)
 2. Make a new ActionScript in Flash Builder.
 3. Point the project location at the game folder.  
    ![Folder Settings](http://i.imgur.com/y6PF6.jpg)
 4. Click "Next".
 5. On the "Build Paths" page, under the "Native Extensions", add the
    "libs/SpeechExtension.ane" ANE.
-   ![Folder Settings](http://i.imgur.com/9W5Rv.jpg)
+   ![Build Path Settings](http://i.imgur.com/9W5Rv.jpg)
 6. Click "Finish".
 7. Right click the project in Package Explorer, go to "Properties", then
    "Actionscript Build Packaging".
