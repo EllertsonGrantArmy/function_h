@@ -7,7 +7,7 @@
    the ane to your project. To do this, run ```sh setup_ane.sh``` in the
    repo directory.
 2. Make a new ActionScript in Flash Builder.
-3. Point the project location at the game folder.
+3. Point the project location at the game folder.  
    ![Folder Settings](http://i.imgur.com/y6PF6.jpg)
 4. Click "Next".
 5. On the "Build Paths" page, under the "Native Extensions", add the
