@@ -12,6 +12,10 @@ package connections
 			_instance = this;
 		}
 		
+		public function checkUsername(name:String, callback:Function):void {
+			callback(false);
+		}
+		
 		public static function get instance():FMSConnection {
 			if(!_instance)
 				_instance = new FMSConnection;

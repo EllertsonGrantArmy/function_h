@@ -2,13 +2,17 @@ package
 {
 	import connections.FMSConnection;
 	
+	import events.FunctionHEvent;
+	
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	
-	import views.*;
-	import view.MainGameView;
+	import views.MainGameView;
 	
+	import views.*;
+	
+	[SWF(height=600,width=800,backgroundColor="0x000000")]
 	public class Function_H extends Sprite {
 		private var titleScreen:TitleScreen;
 		private var setupView:SetupView;
@@ -17,14 +21,15 @@ package
 		private var mainGameView:MainGameView;
 		
 		public function Function_H() {
-			showTitleScreen();
+			this.addEventListener(Event.ADDED_TO_STAGE, function ():void {
+				showTitleScreen();
+			});
 		}
 		
 		private function showTitleScreen():void {
 			titleScreen = new TitleScreen();
 			addChild(titleScreen);
-			titleScreen.play_btn.addEventListener(MouseEvent.CLICK, showLogin);
-			titleScreen.addEventListener("function_h.play", showLogin);
+			titleScreen.addEventListener(FunctionHEvent.PLAY, showLogin);
 		}
 		
 		private function showLogin(event:Event = null):void {
@@ -34,7 +39,7 @@ package
 				showLogin();
 			}
 			titleScreen.showLoginForm();
-			titleScreen.addEventListener("login", showSetup);
+			titleScreen.addEventListener(FunctionHEvent.LOGIN, showSetup);
 		}
 		
 		protected function showSetup(event:Event = null):void {
@@ -55,14 +60,14 @@ package
 			clearStage();
 			waitingForPlayView = new WaitingForPlayView();
 			addChild(waitingForPlayView);
-			FMSConnection.instance.addEventListener("function_h.game_ready", playGame);
+			FMSConnection.instance.addEventListener(FunctionHEvent.GAME_READY, playGame);
 		}
 		
 		protected function playGame(event:Event = null):void
 		{
 			clearStage();
 			mainGameView = new MainGameView();
-			mainGameView.addEventListener("function_h.game_end", showRoomSelect);
+			mainGameView.addEventListener(FunctionHEvent.GAME_END, showRoomSelect);
 		}
 		
 		private function clearStage():void {
@@ -70,7 +75,7 @@ package
 			var toRemove:Array = [titleScreen, setupView, roomSelectView, 
 														waitingForPlayView, mainGameView];
 			for (var i:String in toRemove) {
-				if(contains(toRemove[i]))
+				if(toRemove[i] && contains(toRemove[i]))
 					removeChild(toRemove[i]);
 			}
 		}
