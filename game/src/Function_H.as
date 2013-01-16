@@ -24,6 +24,7 @@ package
 			this.addEventListener(Event.ADDED_TO_STAGE, function ():void {
 				showTitleScreen();
 			});
+			stage.stageFocusRect = false;
 		}
 		
 		private function showTitleScreen():void {

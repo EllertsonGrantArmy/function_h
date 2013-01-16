@@ -11,17 +11,8 @@ package views
 	import flash.text.TextFormat;
 	import flash.ui.Keyboard;
 	
-	public class TitleScreen extends Sprite
-	{
-		private var current_stage:String= "enter"
-		
-		public var play_btn:Sprite;
-		private var textbox:TextField;
-		
-		private var blinkSpeed:uint = 15;
-		private var cursorString:String = "▐";
-		private var blinkCounter:uint = 0;
-		
+	public class TitleScreen extends TextBasedView
+	{		
 		private var titleASCII:String = 
 			" _______  __    __  .__   __.   ______ .___________. __    ______   .__   __.      __    __  \n" +
 			"|   ____||  |  |  | |  \\ |  |  /      ||           ||  |  /  __  \\  |  \\ |  |     |  |  |  | \n" +
@@ -34,51 +25,17 @@ package views
 		private var usernameIn:String = "";
 		
 		public function TitleScreen()	{
-			addEventListener(Event.ADDED_TO_STAGE, init);
+			current_stage = "enter"
 		}
 		
-		private function init(event:Event = null):void {
-			textbox = new TextField();
-			addChild(textbox);
-
-//			if(parent) {
-//				this.width = parent.stage.stageWidth;
-//				this.height = parent.stage.stageHeight;
-//				this.scaleX = 1;
-//				this.scaleY = 1;
-//			}
-			
-			textbox.width = 700;
-			textbox.height = 580;
-			textbox.x = 10;
-			textbox.y = 10;
-			var newFormat:TextFormat = new TextFormat();
-			newFormat.size = 12;
-			newFormat.font = "Courier";
-			textbox.defaultTextFormat = newFormat;
-			textbox.selectable = false;
-			textbox.multiline = true;
+		override protected function init(event:Event = null):void {
+			super.init(event);
 			textbox.text = "Welcome to\n"+titleASCII+"\npress Enter to begin";
-			textbox.textColor = 0xFFFFFF;
-			textbox.addEventListener(Event.SCROLL, keyDown);
 			startCursorBlink();
-			addEventListener(KeyboardEvent.KEY_UP, keyPress);
-			addEventListener(KeyboardEvent.KEY_DOWN, keyDown);
+			
 		}
 		
-		private function startCursorBlink():void {
-			removeEventListener(Event.ENTER_FRAME, blinkCursor);
-			addEventListener(Event.ENTER_FRAME, blinkCursor);
-			blinkCounter = 0;
-		}
-		
-		private function stopCursorBlink():void {
-			removeEventListener(Event.ENTER_FRAME, blinkCursor);
-			removeCursor();
-		}
-		
-		protected function keyPress(event:KeyboardEvent):void
-		{
+		override protected function keyPress(event:KeyboardEvent):void {
 			if(current_stage == "enter" && event.keyCode == Keyboard.ENTER) {
 				dispatchEvent(new Event(FunctionHEvent.PLAY));
 			}
@@ -101,17 +58,20 @@ package views
 						textbox.text = textbox.text.substr(0,textbox.text.length-1) + cursorString;
 					}
 				}
-				else if(event.keyCode == Keyboard.ENTER && usernameIn.length > 0) {
-					current_stage = "checking_user";
-					stopCursorBlink();
-					textbox.appendText("\nchecking username availability...");
-					FMSConnection.instance.checkUsername(usernameIn, checkUsernameResponse);
+				else if(event.keyCode == Keyboard.ENTER) {
+					if(usernameIn.length > 0) {
+						current_stage = "checking_user";
+						stopCursorBlink();
+						textbox.appendText("\nchecking username availability...");
+						FMSConnection.instance.checkUsername(usernameIn, checkUsernameResponse);
+					}
+					else {
+						removeCursor();
+						textbox.appendText("\nusername: ");
+						blinkCursor();
+					}
 				}
 			}
-		}
-		
-		protected function keyDown(event:Event):void {
-			textbox.scrollV = textbox.numLines;
 		}
 		
 		public function checkUsernameResponse(available:Boolean):void {
@@ -124,23 +84,6 @@ package views
 				showLoginForm();
 			}
 			textbox.scrollV = textbox.numLines;
-		}
-		
-		protected function blinkCursor(event:Event = null):void
-		{
-			var charIndex:int = textbox.text.indexOf(cursorString);
-			if(++blinkCounter >= blinkSpeed) {
-				blinkCounter = 0;
-				if(charIndex == -1)
-					textbox.appendText(cursorString);
-				else
-					removeCursor();
-			}
-		}
-		
-		private function removeCursor():void
-		{
-			textbox.text = textbox.text.replace(cursorString, "");
 		}
 		
 		public function showLoginForm():void {

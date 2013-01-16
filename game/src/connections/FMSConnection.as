@@ -13,7 +13,7 @@ package connections
 		}
 		
 		public function checkUsername(name:String, callback:Function):void {
-			callback(false);
+			callback(true);
 		}
 		
 		public static function get instance():FMSConnection {
